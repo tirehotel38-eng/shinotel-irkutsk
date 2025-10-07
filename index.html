@@ -1101,7 +1101,50 @@
             });
         });
     </script>
+<script>
+// Отслеживание отправки формы
+document.getElementById('lead-form').addEventListener('submit', function() {
+    ym(104430428,'reachGoal','lead_form');
+});
+
+// Отслеживание клика на WhatsApp
+document.querySelector('.whatsapp-button').addEventListener('click', function() {
+    ym(104430428,'reachGoal','whatsapp_click');
+});
+
+// Отслеживание клика на кнопку "Рассчитать стоимость"
+document.querySelector('a[href="#cta"].btn').addEventListener('click', function() {
+    ym(104430428,'reachGoal','calculate_click');
+});
+
+// Отслеживание просмотра тарифов
+let pricingTracked = false;
+window.addEventListener('scroll', function() {
+    const pricingSection = document.querySelector('.pricing-cards');
+    if (!pricingTracked && pricingSection) {
+        const rect = pricingSection.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.8) {
+            ym(104430428,'reachGoal','pricing_view');
+            pricingTracked = true;
+        }
+    }
+});
+
+// Отслеживание просмотра контактов
+let contactsTracked = false;
+window.addEventListener('scroll', function() {
+    const contactsSection = document.querySelector('.map-container');
+    if (!contactsTracked && contactsSection) {
+        const rect = contactsSection.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.8) {
+            ym(104430428,'reachGoal','contacts_view');
+            contactsTracked = true;
+        }
+    }
+});
+</script>
 </body>
 
 </html>
+
 
