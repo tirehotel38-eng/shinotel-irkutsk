@@ -1102,49 +1102,76 @@
         });
     </script>
 <script>
-// Отслеживание отправки формы
-document.getElementById('lead-form').addEventListener('submit', function() {
-    ym(104430428,'reachGoal','lead_form');
-});
-
-// Отслеживание клика на WhatsApp
-document.querySelector('.whatsapp-button').addEventListener('click', function() {
-    ym(104430428,'reachGoal','whatsapp_click');
-});
-
-// Отслеживание клика на кнопку "Рассчитать стоимость"
-document.querySelector('a[href="#cta"].btn').addEventListener('click', function() {
-    ym(104430428,'reachGoal','calculate_click');
-});
-
-// Отслеживание просмотра тарифов
-let pricingTracked = false;
-window.addEventListener('scroll', function() {
-    const pricingSection = document.querySelector('.pricing-cards');
-    if (!pricingTracked && pricingSection) {
-        const rect = pricingSection.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.8) {
-            ym(104430428,'reachGoal','pricing_view');
-            pricingTracked = true;
-        }
+// Ждем полной загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Отслеживание отправки формы
+    const leadForm = document.getElementById('lead-form');
+    if (leadForm) {
+        leadForm.addEventListener('submit', function() {
+            if (typeof ym !== 'undefined') {
+                ym(104430428,'reachGoal','lead_form');
+            }
+        });
     }
-});
 
-// Отслеживание просмотра контактов
-let contactsTracked = false;
-window.addEventListener('scroll', function() {
+    // Отслеживание клика на WhatsApp
+    const whatsappBtn = document.querySelector('.whatsapp-button');
+    if (whatsappBtn) {
+        whatsappBtn.addEventListener('click', function() {
+            if (typeof ym !== 'undefined') {
+                ym(104430428,'reachGoal','whatsapp_click');
+            }
+        });
+    }
+
+    // Отслеживание клика на кнопку "Рассчитать стоимость"
+    const calculateBtn = document.querySelector('a[href="#cta"]');
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', function() {
+            if (typeof ym !== 'undefined') {
+                ym(104430428,'reachGoal','calculate_click');
+            }
+        });
+    }
+
+    // Отслеживание просмотра тарифов
+    let pricingTracked = false;
+    const pricingSection = document.querySelector('.pricing-cards');
+    if (pricingSection) {
+        window.addEventListener('scroll', function() {
+            if (!pricingTracked) {
+                const rect = pricingSection.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0) {
+                    if (typeof ym !== 'undefined') {
+                        ym(104430428,'reachGoal','pricing_view');
+                    }
+                    pricingTracked = true;
+                }
+            }
+        });
+    }
+
+    // Отслеживание просмотра контактов
+    let contactsTracked = false;
     const contactsSection = document.querySelector('.map-container');
-    if (!contactsTracked && contactsSection) {
-        const rect = contactsSection.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.8) {
-            ym(104430428,'reachGoal','contacts_view');
-            contactsTracked = true;
-        }
+    if (contactsSection) {
+        window.addEventListener('scroll', function() {
+            if (!contactsTracked) {
+                const rect = contactsSection.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0) {
+                    if (typeof ym !== 'undefined') {
+                        ym(104430428,'reachGoal','contacts_view');
+                    }
+                    contactsTracked = true;
+                }
+            }
+        });
     }
 });
 </script>
 </body>
 
 </html>
+
 
 
