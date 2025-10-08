@@ -619,6 +619,44 @@
   display: block;
   margin-bottom: 8px;
 }
+        .agreement-text {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 15px;
+}
+        @media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 10% auto;
+    padding: 20px;
+  }
+}
+        /* Исправление для модального окна */
+.agreement-text {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  border-left: 4px solid #3498db;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 10% auto;
+    padding: 20px;
+  }
+  
+  .agreement-text {
+    max-height: 250px;
+    font-size: 13px;
+  }
+}
     </style>
 </head>
 <body>
@@ -1236,6 +1274,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const confirmBtn = document.getElementById('confirmAgreement');
   const closeBtn = document.querySelector('.close');
   
+  // Находим правильную кнопку и форму
+  const submitButton = document.querySelector('.btn-send');
+  const form = document.getElementById('discountForm');
+  
+  let formData = null; // Для хранения данных формы
+  
   function showAgreementModal() {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
@@ -1244,6 +1288,30 @@ document.addEventListener('DOMContentLoaded', function() {
   function hideAgreementModal() {
     modal.style.display = 'none';
     document.body.style.overflow = 'auto';
+    // Сбрасываем чекбокс при закрытии
+    agreeCheckbox.checked = false;
+    confirmBtn.disabled = true;
+  }
+  
+  // Сбор данных формы перед показом модалки
+  function collectFormData() {
+    if (form) {
+      formData = new FormData(form);
+    }
+  }
+  
+  // Фактическая отправка формы после согласия
+  function submitForm() {
+    if (form && formData) {
+      // Здесь должна быть ваша реальная отправка на сервер
+      console.log('Отправка данных:', Object.fromEntries(formData));
+      
+      // Показываем сообщение об успехе
+      alert('Спасибо! Ваши данные приняты. Мы свяжемся с вами в ближайшее время.');
+      
+      // Очищаем форму
+      form.reset();
+    }
   }
   
   agreeCheckbox.addEventListener('change', function() {
@@ -1253,8 +1321,7 @@ document.addEventListener('DOMContentLoaded', function() {
   confirmBtn.addEventListener('click', function() {
     if (agreeCheckbox.checked) {
       hideAgreementModal();
-      // Здесь будет отправка формы
-      alert('Спасибо! Ваши данные приняты. Мы свяжемся с вами в ближайшее время.');
+      submitForm(); // Отправляем форму после согласия
     }
   });
   
@@ -1272,11 +1339,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Интеграция с вашей кнопкой
-  const submitButton = document.querySelector('button[type="submit"]');
-  if (submitButton) {
+  // Основной обработчик кнопки "Получить скидку"
+  if (submitButton && form) {
     submitButton.addEventListener('click', function(event) {
-      event.preventDefault();
+      event.preventDefault(); // Важно: предотвращаем отправку
+      
+      // Собираем данные формы
+      collectFormData();
+      
+      // Показываем модальное окно
       showAgreementModal();
     });
   }
@@ -1285,6 +1356,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
+
 
 
 
