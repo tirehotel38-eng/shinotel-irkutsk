@@ -598,6 +598,27 @@
                 padding: 20px 15px;
             }
         }
+        .agreement-text {
+  max-height: 250px; /* Уменьшил высоту для компактности */
+  overflow-y: auto;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  border-left: 4px solid #3498db;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.agreement-text p {
+  margin-bottom: 12px;
+}
+
+.agreement-text strong {
+  color: #2c3e50;
+  display: block;
+  margin-bottom: 8px;
+}
     </style>
 </head>
 <body>
@@ -1169,9 +1190,102 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+    <!-- Модальное окно соглашения -->
+<div id="agreementModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Согласие на обработку персональных данных</h3>
+    <div class="agreement-text">
+      <p><strong>Политика конфиденциальности и обработки персональных данных</strong></p>
+      
+      <p>Предоставляя свои данные, я подтверждаю согласие на их обработку ООО "Шинотель" (Иркутск) в соответствии с Федеральным законом № 152-ФЗ «О персональных данных».</p>
+      
+      <p><strong>Какие данные мы обрабатываем:</strong><br>
+      • Имя и контактные данные (телефон, email)<br>
+      • Информация об автомобиле (марка, модель)<br>
+      • Данные о шинах (тип, размер, сезонность)<br>
+      • Прочая информация, необходимая для расчета стоимости услуг</p>
+      
+      <p><strong>Для каких целей используем:</strong><br>
+      • Расчет стоимости хранения шин<br>
+      • Консультация и обратная связь<br>
+      • Заключение договора на оказание услуг<br>
+      • Информирование о акциях и специальных предложениях</p>
+      
+      <p><strong>Как защищаем ваши данные:</strong><br>
+      • Не передаем третьим лицам без вашего согласия<br>
+      • Храним в защищенных системах<br>
+      • Используем только для целей оказания услуг</p>
+      
+      <p>Я подтверждаю, что ознакомлен(а) с условиями обработки персональных данных и принимаю их.</p>
+    </div>
+    <div class="agreement-controls">
+      <label class="checkbox-label">
+        <input type="checkbox" id="agreeCheckbox">
+        <span class="checkmark"></span>
+        Я согласен(а) на обработку персональных данных
+      </label>
+      <button id="confirmAgreement" class="btn-confirm" disabled>Подтвердить и продолжить</button>
+    </div>
+  </div>
+</div>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('agreementModal');
+  const agreeCheckbox = document.getElementById('agreeCheckbox');
+  const confirmBtn = document.getElementById('confirmAgreement');
+  const closeBtn = document.querySelector('.close');
+  
+  function showAgreementModal() {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function hideAgreementModal() {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+  
+  agreeCheckbox.addEventListener('change', function() {
+    confirmBtn.disabled = !this.checked;
+  });
+  
+  confirmBtn.addEventListener('click', function() {
+    if (agreeCheckbox.checked) {
+      hideAgreementModal();
+      // Здесь будет отправка формы
+      alert('Спасибо! Ваши данные приняты. Мы свяжемся с вами в ближайшее время.');
+    }
+  });
+  
+  closeBtn.addEventListener('click', hideAgreementModal);
+  
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      hideAgreementModal();
+    }
+  });
+  
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && modal.style.display === 'block') {
+      hideAgreementModal();
+    }
+  });
+  
+  // Интеграция с вашей кнопкой
+  const submitButton = document.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      showAgreementModal();
+    });
+  }
+});
+</script>
 </body>
 
 </html>
+
 
 
 
