@@ -25,7 +25,6 @@
     ym(104430428, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/104430428" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
     <style>
         /* Базовые стили */
         * {
@@ -656,6 +655,23 @@
     max-height: 250px;
     font-size: 13px;
   }
+    /* Улучшение скроллбара */
+.agreement-text::-webkit-scrollbar {
+  width: 6px;
+}
+
+.agreement-text::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.agreement-text::-webkit-scrollbar-thumb {
+  background: #3498db;
+  border-radius: 3px;
+}
+
+.agreement-text::-webkit-scrollbar-thumb:hover {
+  background: #2980b9;
 }
     </style>
 </head>
@@ -1286,11 +1302,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   function hideAgreementModal() {
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-    // Сбрасываем чекбокс при закрытии
-    agreeCheckbox.checked = false;
-    confirmBtn.disabled = true;
+  modal.style.display = 'none';
+  document.body.style.overflow = 'auto';
+  agreeCheckbox.checked = false;
+  confirmBtn.disabled = true;
+  formData = null; // Добавьте эту строку
+}
   }
   
   // Сбор данных формы перед показом модалки
@@ -1350,12 +1367,38 @@ document.addEventListener('DOMContentLoaded', function() {
       // Показываем модальное окно
       showAgreementModal();
     });
+  }function submitForm() {
+  if (form && formData) {
+    console.log('Отправка данных:', Object.fromEntries(formData));
+    alert('Спасибо! Ваши данные приняты. Мы свяжемся с вами в ближайшее время.');
+    
+    // Очищаем форму
+    form.reset();
   }
+       function submitForm() {
+  if (form && formData) {
+    // Показываем индикатор загрузки
+    confirmBtn.innerHTML = 'Отправка...';
+    confirmBtn.disabled = true;
+    
+    setTimeout(function() {
+      console.log('Отправка данных:', Object.fromEntries(formData));
+      alert('Спасибо! Ваши данные приняты. Мы свяжемся с вами в ближайшее время.');
+      form.reset();
+      
+      // Возвращаем исходный текст кнопки
+      confirmBtn.innerHTML = 'Подтвердить и продолжить';
+    }, 1000);
+  }
+}
+}
 });
+        
 </script>
 </body>
 
 </html>
+
 
 
 
